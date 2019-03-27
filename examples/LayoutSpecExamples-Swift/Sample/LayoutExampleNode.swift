@@ -272,3 +272,24 @@ class UserProfileSample : LayoutExampleNode {
   }
   
 }
+
+class TwoNodeOverlaySample: LayoutExampleNode {
+  
+  let blueNode = ASDisplayNode()
+  let redNode = ASDisplayNode()
+  
+  required init() {
+    super.init()
+    
+    blueNode.backgroundColor = .blue
+    redNode.backgroundColor = .red
+  }
+  
+  override class func title() -> String {
+    return "두 Node의 오버레이 테스트"
+  }
+  
+  override class func descriptionTitle() -> String? {
+    return "각각을 오버레이 하면 사이즈와 위치는 어떻게 되는지 테스트 함"
+  }
+}

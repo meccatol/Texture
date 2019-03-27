@@ -12,22 +12,28 @@ import AsyncDisplayKit
 extension HeaderWithRightAndLeftItems {
 
   override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+    // when the username / location text is too long,
+    // shrink the stack to fit onscreen rather than push content to the right, offscreen
     let nameLocationStack = ASStackLayoutSpec.vertical()
     nameLocationStack.style.flexShrink = 1.0
     nameLocationStack.style.flexGrow = 1.0
 
+    // if fetching post location data from server,
+    // check if it is available yet and include it if so
     if postLocationNode.attributedText != nil {
       nameLocationStack.children = [userNameNode, postLocationNode]
     } else {
       nameLocationStack.children = [userNameNode]
     }
-
+    
+    // horizontal stack
     let headerStackSpec = ASStackLayoutSpec(direction: .horizontal,
                                             spacing: 40,
                                             justifyContent: .start,
                                             alignItems: .center,
                                             children: [nameLocationStack, postTimeNode])
-
+    
+    // inset the horizontal stack
     return ASInsetLayoutSpec(insets: UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10), child: headerStackSpec)
   }
 
@@ -82,4 +88,23 @@ extension FlexibleSeparatorSurroundingContent {
     return ASInsetLayoutSpec(insets:UIEdgeInsets(top: 60, left: 0, bottom: 60, right: 0), child: verticalStackSpec)
   }
 
+}
+
+extension TwoNodeOverlaySample {
+  
+  override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+    
+    blueNode.style.preferredSize = .init(width: 100.0, height: 100.0)
+    blueNode.style.layoutPosition = CGPoint(x: 0, y: 0)
+    
+    redNode.style.preferredSize = .init(width: 70.0, height: 70.0)
+    redNode.style.layoutPosition = CGPoint(x: 0, y: 0)
+    
+    let absoluteSpec = ASAbsoluteLayoutSpec(children: [blueNode, redNode])
+    
+    // ASAbsoluteLayoutSpec's .sizing property recreates the behavior of ASDK Layout API 1.0's "ASStaticLayoutSpec"
+    absoluteSpec.sizing = .sizeToFit
+    
+    return absoluteSpec;
+  }
 }

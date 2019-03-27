@@ -20,7 +20,8 @@ class OverviewViewController: ASViewController<ASTableNode> {
       PhotoWithOutsetIconOverlay.self,
       FlexibleSeparatorSurroundingContent.self,
       CornerLayoutSample.self,
-      UserProfileSample.self
+      UserProfileSample.self,
+      TwoNodeOverlaySample.self
     ]
 
     super.init(node: tableNode)
